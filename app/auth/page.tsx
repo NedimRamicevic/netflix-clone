@@ -5,9 +5,17 @@ import { useState } from 'react'
 
 const Auth  = () => {
     const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [name, setName] = useState('')
 
     const onEmailChange = (e:any) => {
         setEmail(e.target.value)
+    }
+    const onPasswordChange = (e:any) => {
+        setPassword(e.target.value)
+    }
+    const onNameChange = (e:any) => {
+        setName(e.target.value)
     }
 
     return (
@@ -21,9 +29,14 @@ const Auth  = () => {
                         <h2 className='text-white text-4xl mb-8 font-semibold' >
                             Sign In
                         </h2>
-                        <div className=' flex flex-col gap-4'>
+                        <div className=' flex flex-col gap-4 pb-4'>
+                            <Input label='Username' onChange={onNameChange}  value={name} id='name'/>
                             <Input label='Email' onChange={onEmailChange} type='email' value={email} id='email'/>
+                            <Input label='Password' onChange={onPasswordChange} type='password' value={password} id='password'/>
                         </div>
+                        <button className=' bg-red-500 hover:bg-red-700 transition py-3 text-white rounded-md w-full'>
+                            Click
+                        </button>
                     </div>
                 </div>
             </div>
