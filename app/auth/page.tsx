@@ -8,6 +8,12 @@ const Auth  = () => {
     const [password, setPassword] = useState('')
     const [name, setName] = useState('')
 
+    const [signIn, setSignIn] = useState(true)
+
+    const signInHandler = () => {
+        setSignIn(!signIn)
+    }
+
     const onEmailChange = (e:any) => {
         setEmail(e.target.value)
     }
@@ -27,16 +33,22 @@ const Auth  = () => {
                 <div className='flex justify-center'>
                     <div className=' bg-black bg-opacity-70 px-12 py-16 self-center mt-2 lg:max-w-md rounded-md w-full'>
                         <h2 className='text-white text-4xl mb-8 font-semibold' >
-                            Sign In
+                            {signIn ? 'Sign In' : 'Register'}
                         </h2>
                         <div className=' flex flex-col gap-4 pb-4'>
-                            <Input label='Username' onChange={onNameChange}  value={name} id='name'/>
+                            { !signIn && (<Input label='Username' onChange={onNameChange}  value={name} id='name'/>)}
                             <Input label='Email' onChange={onEmailChange} type='email' value={email} id='email'/>
                             <Input label='Password' onChange={onPasswordChange} type='password' value={password} id='password'/>
                         </div>
                         <button className=' bg-red-500 hover:bg-red-700 transition py-3 text-white rounded-md w-full'>
-                            Click
+                            {signIn ? 'Login' : 'Register'}
                         </button>
+                        <p className=' text-zinc-500 mt-12'>
+                            First time using Netflix?
+                            <span onClick={signInHandler} className='ml-1 text-white hover:underline'>
+                                {signIn ? 'Create an Account' : 'Already have an account?'}
+                            </span>
+                        </p>
                     </div>
                 </div>
             </div>
