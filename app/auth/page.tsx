@@ -1,7 +1,15 @@
+'use client'
 import Image from 'next/image'
 import Input from '../components/Input'
+import { useState } from 'react'
 
 const Auth  = () => {
+    const [email, setEmail] = useState('')
+
+    const onEmailChange = (e:any) => {
+        setEmail(e.target.value)
+    }
+
     return (
         <div className="relative bg-[url('/images/hero.jpg')] bg-no-repeat bg-center bg-cover bg-fixed h-full ">
             <div className=" h-full w-full lg:bg-opacity-50 bg-black ">
@@ -14,7 +22,7 @@ const Auth  = () => {
                             Sign In
                         </h2>
                         <div className=' flex flex-col gap-4'>
-                            <Input/>
+                            <Input label='Email' onChange={onEmailChange} type='email' value={email} id='email'/>
                         </div>
                     </div>
                 </div>
