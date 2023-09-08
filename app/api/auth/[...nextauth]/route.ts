@@ -3,7 +3,7 @@ import Credentials from "next-auth/providers/credentials";
 import prismadb from "@/lib/prismadb";
 import { compare } from "bcrypt";
 
-export default NextAuth({
+const handler = NextAuth({
     providers : [
         Credentials ({
             id : "credentials",
@@ -20,7 +20,7 @@ export default NextAuth({
                     where : {email : credentials.email}
                 })
                 if(!user || !user.hashedPassword) {
-                    throw new Error("No user found")
+                    throw new Error("User not found")
                 }
                 const isCorrectPassword = await compare(credentials.password, user.hashedPassword);
 
@@ -45,3 +45,5 @@ export default NextAuth({
     },
     secret : process.env.NEXTAUTH_SECRET,
 })
+
+export { handler as GET, handler as POST }

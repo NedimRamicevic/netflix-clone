@@ -2,17 +2,19 @@
 import Image from 'next/image'
 import Input from '../components/Input'
 import { useCallback, useState } from 'react'
-import axios from 'axios'
+import { signIn } from 'next-auth/react'
+import router from 'next/router'
+import { log } from 'console'
 
 const Auth  = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [name, setName] = useState('')
 
-    const [signIn, setSignIn] = useState(true)
+    const [isSignIn, setSignIn] = useState(true)
 
     const signInHandler = () => {
-        setSignIn(!signIn)
+        setSignIn(!isSignIn)
     }
 
     const onEmailChange = (e:any) => {
@@ -24,7 +26,23 @@ const Auth  = () => {
     const onNameChange = (e:any) => {
         setName(e.target.value)
     }
+    const login = useCallback(
+        async () => {
+            try {
+                await signIn('credentials', {
+                    redirect: false,
+                    callbackUrl: '/',
+                    email,
+                    password
+                })
 
+                router.push('/')
+            }
+            catch (err) {
+                console.log(err)
+            }
+        }, [email, password]
+    )
     const register = useCallback(
         async () => {
 
@@ -36,12 +54,15 @@ const Auth  = () => {
                     },
                     body: JSON.stringify({name, email, password})
                 })
+                login()
             }
             catch (err) {
                 console.log(err)
             }
-        }, [name, email, password]
+        }, [name, email, password, login]
     )
+
+    
 
     return (
         <div className="relative bg-[url('/images/hero.jpg')] bg-no-repeat bg-center bg-cover bg-fixed h-full ">
@@ -52,20 +73,20 @@ const Auth  = () => {
                 <div className='flex justify-center'>
                     <div className=' bg-black bg-opacity-70 px-12 py-16 self-center mt-2 lg:max-w-md rounded-md w-full'>
                         <h2 className='text-white text-4xl mb-8 font-semibold' >
-                            {signIn ? 'Sign In' : 'Register'}
+                            {isSignIn ? 'Sign In' : 'Register'}
                         </h2>
                         <div className=' flex flex-col gap-4 pb-4'>
                             { !signIn && (<Input label='Username' onChange={onNameChange}  value={name} id='name'/>)}
                             <Input label='Email' onChange={onEmailChange} type='email' value={email} id='email'/>
                             <Input label='Password' onChange={onPasswordChange} type='password' value={password} id='password'/>
                         </div>
-                        <button onClick={register} className=' bg-red-500 hover:bg-red-700 transition py-3 text-white rounded-md w-full'>
-                            {signIn ? 'Login' : 'Register'}
+                        <button onClick={isSignIn ? login : register} className=' bg-red-500 hover:bg-red-700 transition py-3 text-white rounded-md w-full'>
+                            {isSignIn ? 'Login' : 'Register'}
                         </button>
                         <p className=' text-zinc-500 mt-12'>
                             First time using Netflix?
                             <span onClick={signInHandler} className='ml-1 text-white hover:underline'>
-                                {signIn ? 'Create an Account' : 'Already have an account?'}
+                                {isSignIn ? 'Create an Account' : 'Already have an account?'}
                             </span>
                         </p>
                     </div>
