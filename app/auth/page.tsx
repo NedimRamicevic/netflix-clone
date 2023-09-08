@@ -3,8 +3,7 @@ import Image from 'next/image'
 import Input from '../components/Input'
 import { useCallback, useState } from 'react'
 import { signIn } from 'next-auth/react'
-import router from 'next/router'
-import { log } from 'console'
+import { redirect } from 'next/navigation';
 
 const Auth  = () => {
     const [email, setEmail] = useState('')
@@ -35,8 +34,8 @@ const Auth  = () => {
                     email,
                     password
                 })
+                redirect('/');
 
-                router.push('/')
             }
             catch (err) {
                 console.log(err)
