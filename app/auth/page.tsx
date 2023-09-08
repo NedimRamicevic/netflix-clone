@@ -1,7 +1,8 @@
 'use client'
 import Image from 'next/image'
 import Input from '../components/Input'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
+import axios from 'axios'
 
 const Auth  = () => {
     const [email, setEmail] = useState('')
@@ -24,6 +25,22 @@ const Auth  = () => {
         setName(e.target.value)
     }
 
+    const register = useCallback(
+        async () => {
+
+            try {
+                await axios.post('/api/auth/register', {
+                    name,
+                    email,
+                    password
+                })
+            }
+            catch (err) {
+                console.log(err)
+            }
+        }, [name, email, password]
+    )
+
     return (
         <div className="relative bg-[url('/images/hero.jpg')] bg-no-repeat bg-center bg-cover bg-fixed h-full ">
             <div className=" h-full w-full lg:bg-opacity-50 bg-black ">
@@ -40,7 +57,7 @@ const Auth  = () => {
                             <Input label='Email' onChange={onEmailChange} type='email' value={email} id='email'/>
                             <Input label='Password' onChange={onPasswordChange} type='password' value={password} id='password'/>
                         </div>
-                        <button className=' bg-red-500 hover:bg-red-700 transition py-3 text-white rounded-md w-full'>
+                        <button onClick={register} className=' bg-red-500 hover:bg-red-700 transition py-3 text-white rounded-md w-full'>
                             {signIn ? 'Login' : 'Register'}
                         </button>
                         <p className=' text-zinc-500 mt-12'>
