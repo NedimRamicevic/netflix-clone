@@ -33,6 +33,8 @@ const Auth  = () => {
                     name,
                     email,
                     password
+                }).then((res) => {
+                    console.log("nabr")
                 })
             }
             catch (err) {
