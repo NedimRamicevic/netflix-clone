@@ -1,41 +1,39 @@
 import bcrypt from 'bcrypt';
-import { NextApiRequest, NextApiResponse } from 'next';
 import prismadb from '@/lib/prismadb';
 import { NextResponse } from 'next/server';
-import { json } from 'stream/consumers';
 
 export  async function POST(req: Request) {
 
-    console.log(req.body);
+    
        
-    // try {
-    //     const { email,name, password } = req.body;
+    try {
+        const { email,name, password } = await req.json();
+        if (!email || !name || !password) return NextResponse.json({ message: 'Please fill all fields' });
+        const existingUser = await prismadb.user.findUnique({
+            where: {
+                email
+            }
+        });
 
-    //     const existingUser = await prismadb.user.findUnique({
-    //         where: {
-    //             email
-    //         }
-    //     });
+        if(existingUser) return NextResponse.json({ message: 'User already exists' });
 
-    //     if(existingUser) return res.status(422).end();
+        const hashedPassword = await bcrypt.hash(password, 12);
 
-    //     const hashedPassword = await bcrypt.hash(password, 12);
-
-    //     const newUser = await prismadb.user.create({
-    //         data: {
-    //             email,
-    //             name,
-    //             hashedPassword,
-    //             image:"",
-    //             emailVerified: true,
-    //         }
-    //     });
+        const newUser = await prismadb.user.create({
+            data: {
+                email,
+                name,
+                hashedPassword,
+                image:"",
+                emailVerified: true,
+            }
+        });
             
-    //     return NextResponse.json(newUser);
+        return NextResponse.json(newUser);
         
-    // } catch (error) {
-    //     return res.status(400).end();
-    // }
+    } catch (error) {
+        console.log("error");
+    }
 }
 
 export async function GET(req: Request) {

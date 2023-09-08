@@ -29,12 +29,12 @@ const Auth  = () => {
         async () => {
 
             try {
-                await axios.post('/api/auth/register', {
-                    name,
-                    email,
-                    password
-                }).then((res) => {
-                    console.log("nabr")
+                await fetch('api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({name, email, password})
                 })
             }
             catch (err) {
