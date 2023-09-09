@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
 import Input from '../components/Input'
-import { useCallback, useState } from 'react'
+import {  useState } from 'react'
 import { signIn } from 'next-auth/react'
 import {FcGoogle} from 'react-icons/fc'
 import {FaGithub } from 'react-icons/fa'
@@ -28,41 +28,6 @@ const Auth  = () => {
     const onNameChange = (e:any) => {
         setName(e.target.value)
     }
-    const login = useCallback(
-        async () => {
-            try {
-                await signIn('credentials', {
-                    redirect: false,
-                    callbackUrl: '/',
-                    email,
-                    password
-                })
-                router.push('/');
-
-            }
-            catch (err) {
-                console.log(err)
-            }
-        }, [email, password,router]
-    )
-    const register = useCallback(
-        async () => {
-
-            try {
-                await fetch('api/auth/register', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({name, email, password})
-                })
-                login()
-            }
-            catch (err) {
-                console.log(err)
-            }
-        }, [name, email, password, login]
-    )
 
     
 
@@ -82,7 +47,7 @@ const Auth  = () => {
                             <Input label='Email' onChange={onEmailChange} type='email' value={email} id='email'/>
                             <Input label='Password' onChange={onPasswordChange} type='password' value={password} id='password'/>
                         </div>
-                        <button onClick={isSignIn ? login : register} className=' bg-red-500 hover:bg-red-700 transition py-3 text-white rounded-md w-full'>
+                        <button  className=' bg-red-500 hover:bg-red-700 transition py-3 text-white rounded-md w-full'>
                             {isSignIn ? 'Login' : 'Register'}
                         </button>
                         <div className='flex flex-row items-center gap-5 mt-8 justify-center'>
