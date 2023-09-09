@@ -1,9 +1,10 @@
+'use client'
 import React, { useCallback, useEffect, useState } from 'react';
 import { BellIcon, MagnifyingGlassIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
 
 import AccountMenu from './AccountMenu';
 import MobileMenu from './MobileMenu';
-import NavbarItem from './NavBarItem';
+import NavbarItem from './NavbarItem';
 
 const TOP_OFFSET = 66;
 
@@ -38,10 +39,10 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="w-full fixed z-40">
+    <nav className="w-full fixed z-40 text-white">
       <div className={`px-4 md:px-16 py-6 flex flex-row items-center transition duration-500 ${showBackground ? 'bg-zinc-900 bg-opacity-90' : ''}`}>
         <img src="/images/logo.png" className="h-4 lg:h-7" alt="Logo" />
-        <div className="flex-row ml-8 gap-7 hidden lg:flex">
+        <div className="flex-row ml-8 gap-7 hidden lg:flex text-white">
           <NavbarItem label="Home" active />
           <NavbarItem label="Series" />
           <NavbarItem label="Films" />
