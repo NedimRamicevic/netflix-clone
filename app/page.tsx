@@ -5,10 +5,11 @@ import Billboard from './components/Billboard'
 
 export default function Home() {
   return (
-    <div className='flex flex-col gap-4 h-full'>
+    <div className='flex flex-col gap-6 h-full'>
        <Navbar />
        <Billboard/>
-       <MovieList />
+       <MovieList title='Top 10' />
+       <MovieList title = 'Movies '/>
     </div>
   )
 }
